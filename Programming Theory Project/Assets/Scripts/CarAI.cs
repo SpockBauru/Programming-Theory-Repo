@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarAI : MonoBehaviour
+public class CarAI : Car
 {
+    [Header("Car AI")]
     // Public things
     //position of the car in the lane
     public float laneOffsetX = 0f;
@@ -23,15 +24,9 @@ public class CarAI : MonoBehaviour
     private bool checkpointFinished = false;
 
     // Car variables
-    private CarControl carControl;
+    //private Car carControl;
     private Vector3 currentPosition;
     private float turnForce = 0;
-
-    // OnEnable is called before Start
-    private void OnEnable()
-    {
-        carControl = GetComponent<CarControl>();
-    }
 
     // Start is called before the first frame update
     private void Start()
@@ -41,7 +36,7 @@ public class CarAI : MonoBehaviour
     }
 
     // Update is called once per frame
-    private void FixedUpdate()
+    protected override void FixedUpdate()
     {
         currentPosition = transform.position;
 
@@ -56,8 +51,8 @@ public class CarAI : MonoBehaviour
         // =================================== return is cool! ==============================
         if (checkpointFinished)
         {
-            carControl.verticalInput = 0;
-            carControl.horizontalInput = 0;
+            verticalInput = 0;
+            horizontalInput = 0;
             return;
         }
 
@@ -66,8 +61,11 @@ public class CarAI : MonoBehaviour
 
         turnForce = Mathf.Clamp(checkpointAngle / angleWide, -1, 1);
 
-        carControl.horizontalInput = turnForce;
-        carControl.verticalInput = 1;
+        horizontalInput = turnForce;
+        verticalInput = 1;
+
+        // Call base script
+        base.FixedUpdate();
     }
 
     private void SetCheckpoint(int i)

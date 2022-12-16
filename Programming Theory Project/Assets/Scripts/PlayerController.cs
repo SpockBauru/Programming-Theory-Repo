@@ -2,19 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Car
 {
-    private CarControl carControl;
-
-    private void OnEnable()
-    {
-        carControl = GetComponent<CarControl>();
-    }
-
-    void FixedUpdate()
+    protected override void FixedUpdate()
     {
         //Input Values
-        carControl.horizontalInput = Input.GetAxis("Horizontal");
-        carControl.verticalInput = Input.GetAxis("Vertical");
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
+
+        // Call base script
+        base.FixedUpdate();
     }
 }

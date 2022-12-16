@@ -2,19 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CarControl : MonoBehaviour
+public class Car : MonoBehaviour
 {
-    // Public variables
-    public float motorForce = 50000;
-    public float rotationForce = 50000f;
+    [Header("Car Base")]
+    // Editor variables
+    [SerializeField] private float motorForce = 50000;
+    [SerializeField] private float rotationForce = 50000f;
 
-    public float maxSpeed = 120;
-    public float maxRotationSpeed = 1;
+    [SerializeField] private float maxSpeed = 120;
+    [SerializeField] private float maxRotationSpeed = 1;
 
-    public Vector3 centerOfMass = new(0, -1, 0);
+    [SerializeField] private Vector3 centerOfMass = new(0, -1, 0);
 
-    public float horizontalInput;
-    public float verticalInput;
+    // Variables accessed by children
+    protected float horizontalInput;
+    protected float verticalInput;
 
     // Private variables
     private Rigidbody rb;
@@ -25,7 +27,7 @@ public class CarControl : MonoBehaviour
     private bool grounded = true;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         //km/h to m/s
         maxSpeed /= 3.6f;
@@ -39,7 +41,7 @@ public class CarControl : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         //check if car is not flying
         grounded = Physics.Raycast(transform.position, -transform.up, out hit, 1.3f);
@@ -48,11 +50,17 @@ public class CarControl : MonoBehaviour
 
         //Forward and backward
         if (grounded && rb.velocity.magnitude < maxSpeed)
+        {
             rb.AddForce(verticalInput * motorForce * transform.forward);
+        }
+
 
         // Turn Right or Left
         if (grounded && rb.angularVelocity.magnitude < maxRotationSpeed)
+        {
             rb.AddTorque(horizontalInput * rotationForce * transform.up);
+        }
+            
 
         // Reset if fall
         if (transform.position.y < -20)
@@ -68,5 +76,4 @@ public class CarControl : MonoBehaviour
             rb.velocity = Vector3.zero;
         }
     }
-
 }

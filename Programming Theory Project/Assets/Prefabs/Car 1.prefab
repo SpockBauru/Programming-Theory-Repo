@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 142079986955062217}
   - component: {fileID: 1772630880763750895}
   - component: {fileID: 1772630880763750894}
-  - component: {fileID: 1772630880763750893}
   m_Layer: 0
   m_Name: Car 1
   m_TagString: Untagged
@@ -92,28 +91,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 888573d5770c07b41a6f6463ff3a4e21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  motorForce: 50000
+  rotationForce: 50000
+  maxSpeed: 120
+  maxRotationSpeed: 1
+  centerOfMass: {x: 0, y: -1, z: 0}
   laneOffsetX: -10
   laneOffsetZ: 0
   angleWide: 45
---- !u!114 &1772630880763750893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1772630880763750884}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5ce010d32ef7ad4e8cbea5efb6ba2cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  motorForce: 60000
-  rotationForce: 50000
-  maxSpeed: 140
-  maxRotationSpeed: 5
-  centerOfMass: {x: 0, y: -1, z: 0}
-  horizontalInput: 0
-  verticalInput: 0
 --- !u!1001 &6632546757228040158
 PrefabInstance:
   m_ObjectHideFlags: 0
