@@ -9,10 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1772630880763750880}
-  - component: {fileID: 1772630880763750883}
-  - component: {fileID: 142079986955062217}
-  - component: {fileID: 1772630880763750895}
-  - component: {fileID: 1772630880763750894}
+  - component: {fileID: 6156106329903017959}
+  - component: {fileID: 8341540266105862822}
   m_Layer: 0
   m_Name: Car 1
   m_TagString: Untagged
@@ -36,34 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1772630880763750883
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1772630880763750884}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 3, y: 3, z: 4.95}
-  m_Center: {x: 0, y: 1, z: -0.42}
---- !u!136 &142079986955062217
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1772630880763750884}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 1.5373073
-  m_Height: 3.4840534
-  m_Direction: 2
-  m_Center: {x: -0.00000063850405, y: 1.078764, z: 1.675285}
---- !u!54 &1772630880763750895
+--- !u!54 &6156106329903017959
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -71,15 +42,15 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1772630880763750884}
   serializedVersion: 2
-  m_Mass: 1200
-  m_Drag: 1
-  m_AngularDrag: 0.5
+  m_Mass: 1500
+  m_Drag: 0
+  m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1772630880763750894
+--- !u!114 &8341540266105862822
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,14 +62,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 888573d5770c07b41a6f6463ff3a4e21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motorForce: 50000
-  rotationForce: 50000
-  maxSpeed: 120
-  maxRotationSpeed: 1
-  centerOfMass: {x: 0, y: -1, z: 0}
-  laneOffsetX: -10
+  motorTorque: 1000
+  brakeTorque: 3000
+  steerAngle: 25
+  maxSpeed: 100
+  centerOfMass: {x: 0, y: 0, z: 0}
+  frontLeft: {fileID: 6632546757227677390}
+  frontRight: {fileID: 6632546757227581410}
+  rearLeft: {fileID: 6632546757227687550}
+  rearRight: {fileID: 6632546757227682206}
+  frontLeftCollider: {fileID: 5472124834757573386}
+  frontRightCollider: {fileID: 6610660759933902620}
+  rearLeftCollider: {fileID: 7176067573752765993}
+  rearRightCollider: {fileID: 5267016012442423563}
+  laneOffsetX: -5
   laneOffsetZ: 0
-  angleWide: 45
+  maxAngle: 90
+  checkpointFinished: 0
 --- !u!1001 &6632546757228040158
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -154,10 +134,70 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7830857513603133344, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
+      propertyPath: m_Size.x
+      value: 2.730657
+      objectReference: {fileID: 0}
+    - target: {fileID: 7830857513603133344, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
+      propertyPath: m_Size.z
+      value: 5.4974413
+      objectReference: {fileID: 0}
+    - target: {fileID: 7830857513603133344, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
+      propertyPath: m_Center.x
+      value: -0.008021953
+      objectReference: {fileID: 0}
+    - target: {fileID: 7830857513603133344, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
+      propertyPath: m_Center.y
+      value: 1.6063871
+      objectReference: {fileID: 0}
+    - target: {fileID: 7830857513603133344, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
+      propertyPath: m_Center.z
+      value: -0.060188055
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
+--- !u!146 &5267016012442423563 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 1518760955231854293, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
+  m_PrefabInstance: {fileID: 6632546757228040158}
+  m_PrefabAsset: {fileID: 0}
+--- !u!146 &5472124834757573386 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 1728096557962523860, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
+  m_PrefabInstance: {fileID: 6632546757228040158}
+  m_PrefabAsset: {fileID: 0}
+--- !u!146 &6610660759933902620 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 555705053248639170, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
+  m_PrefabInstance: {fileID: 6632546757228040158}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6632546757227581410 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 458812, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
+  m_PrefabInstance: {fileID: 6632546757228040158}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6632546757227663478 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 417704, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
+  m_PrefabInstance: {fileID: 6632546757228040158}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6632546757227677390 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 428304, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
+  m_PrefabInstance: {fileID: 6632546757228040158}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6632546757227682206 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 431680, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
+  m_PrefabInstance: {fileID: 6632546757228040158}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6632546757227687550 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 434592, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
+  m_PrefabInstance: {fileID: 6632546757228040158}
+  m_PrefabAsset: {fileID: 0}
+--- !u!146 &7176067573752765993 stripped
+WheelCollider:
+  m_CorrespondingSourceObject: {fileID: 4583830246025105911, guid: 68840c673a0b18e41a044ed077548d55, type: 3}
   m_PrefabInstance: {fileID: 6632546757228040158}
   m_PrefabAsset: {fileID: 0}

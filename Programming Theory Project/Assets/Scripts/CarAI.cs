@@ -5,13 +5,12 @@ using UnityEngine;
 public class CarAI : Car
 {
     [Header("Car AI")]
-    // Public things
     //position of the car in the lane
     public float laneOffsetX = 0f;
     public float laneOffsetZ = 0f;
 
     //Limit angle between car and checkpoint
-    public float angleWide = 90f;
+    public float maxAngle = 90f;
 
     // Checkpoints
     private Transform currentCheckpoint;
@@ -19,12 +18,9 @@ public class CarAI : Car
     private int checkpointIndex = 1;
 
     private Vector3 checkPointPosition;
-    private Vector3 checkpointDirection;
-    private float checkpointAngle;
-    private bool checkpointFinished = false;
+    [SerializeField] private bool checkpointFinished = false;
 
     // Car variables
-    //private Car carControl;
     private Vector3 currentPosition;
     private float turnForce = 0;
 
@@ -35,37 +31,45 @@ public class CarAI : Car
         SetCheckpoint(checkpointIndex);
     }
 
-    // Update is called once per frame
     protected override void FixedUpdate()
     {
         currentPosition = transform.position;
 
-        // Reset when press R
-        if (Input.GetKeyDown(KeyCode.R) || currentPosition.y < -15f)
-        {
-            checkpointFinished = false;
-            checkpointIndex = 1;
-            SetCheckpoint(checkpointIndex);
-        }
-
-        // =================================== return is cool! ==============================
         if (checkpointFinished)
         {
-            verticalInput = 0;
-            horizontalInput = 0;
-            return;
+            BreakCar();
+        }
+        else
+        {
+            SetInputs(currentPosition, checkPointPosition);
+            MoveCar(verticalInput, horizontalInput);
         }
 
-        checkpointDirection = checkPointPosition - currentPosition;
-        checkpointAngle = Vector3.SignedAngle(transform.forward, checkpointDirection, transform.up);
-
-        turnForce = Mathf.Clamp(checkpointAngle / angleWide, -1, 1);
-
-        horizontalInput = turnForce;
-        verticalInput = 1;
+        // Reset car if press R or if fall from map
+        if (Input.GetKeyDown(KeyCode.R) || transform.position.y < -20)
+            ResetCar();
 
         // Call base script
         base.FixedUpdate();
+    }
+
+    void SetInputs(Vector3 carPosition, Vector3 desiredPosition)
+    {
+        Vector3 direction = desiredPosition - carPosition;
+        float angle = Vector3.SignedAngle(transform.forward, direction, transform.up);
+        turnForce = Mathf.Clamp(angle / maxAngle, -1, 1);
+
+        horizontalInput = turnForce;
+        verticalInput = 1;
+    }
+
+    protected override void ResetCar()
+    {
+        checkpointFinished = false;
+        checkpointIndex = 1;
+        SetCheckpoint(checkpointIndex);
+        ReleaseBreak();
+        base.ResetCar();
     }
 
     private void SetCheckpoint(int i)
@@ -77,6 +81,7 @@ public class CarAI : Car
         Debug.DrawLine(transform.position, checkPointPosition, Color.yellow, 10f);
     }
 
+    // Get next checkpoint
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.GetInstanceID() == currentCheckpoint.GetInstanceID())

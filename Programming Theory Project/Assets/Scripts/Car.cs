@@ -6,15 +6,25 @@ public class Car : MonoBehaviour
 {
     [Header("Car Base")]
     // Editor variables
-    [SerializeField] private float motorForce = 50000;
-    [SerializeField] private float rotationForce = 50000f;
+    [SerializeField] private float motorTorque = 1000;
+    [SerializeField] private float brakeTorque = 3000;
+    [SerializeField] private float steerAngle = 30f;
 
     [SerializeField] private float maxSpeed = 120;
-    [SerializeField] private float maxRotationSpeed = 1;
 
     [SerializeField] private Vector3 centerOfMass = new(0, -1, 0);
 
-    // Variables accessed by children
+    [SerializeField] private Transform frontLeft;
+    [SerializeField] private Transform frontRight;
+    [SerializeField] private Transform rearLeft;
+    [SerializeField] private Transform rearRight;
+
+    [SerializeField] private WheelCollider frontLeftCollider;
+    [SerializeField] private WheelCollider frontRightCollider;
+    [SerializeField] private WheelCollider rearLeftCollider;
+    [SerializeField] private WheelCollider rearRightCollider;
+
+    // Variables modified by children
     protected float horizontalInput;
     protected float verticalInput;
 
@@ -23,8 +33,8 @@ public class Car : MonoBehaviour
     private Vector3 initialPosition;
     private Quaternion initialRotation;
 
-    private RaycastHit hit;
-    private bool grounded = true;
+    private Vector3 pos;
+    private Quaternion rot;
 
     // Start is called before the first frame update
     void Awake()
@@ -40,40 +50,62 @@ public class Car : MonoBehaviour
         initialRotation = transform.rotation;
     }
 
-    // Update is called once per frame
+    // FixedUpdate is called at fixed intervals of 20ms
     protected virtual void FixedUpdate()
     {
-        //check if car is not flying
-        grounded = Physics.Raycast(transform.position, -transform.up, out hit, 1.3f);
-        grounded = grounded && hit.transform.CompareTag("Ground");
-        Debug.DrawRay(transform.position, -transform.up * 1.3f, Color.yellow);
-
-        //Forward and backward
-        if (grounded && rb.velocity.magnitude < maxSpeed)
+        MoveWheels();
+    }
+    protected void MoveCar(float vertical, float horizontal)
+    {
+        if (rb.velocity.magnitude <= maxSpeed)
         {
-            rb.AddForce(verticalInput * motorForce * transform.forward);
+            frontLeftCollider.motorTorque = vertical * motorTorque;
+            frontRightCollider.motorTorque = vertical * motorTorque;
+        }
+        else
+        {
+            frontLeftCollider.motorTorque = 0;
+            frontRightCollider.motorTorque = 0;
         }
 
+        frontLeftCollider.steerAngle = horizontal * steerAngle;
+        frontRightCollider.steerAngle = horizontal * steerAngle;
+    }
 
-        // Turn Right or Left
-        if (grounded && rb.angularVelocity.magnitude < maxRotationSpeed)
-        {
-            rb.AddTorque(horizontalInput * rotationForce * transform.up);
-        }
-            
 
-        // Reset if fall
-        if (transform.position.y < -20)
-        {
-            transform.SetPositionAndRotation(initialPosition, initialRotation);
-            rb.velocity = Vector3.zero;
-        }
+    protected void BreakCar()
+    {
+        frontLeftCollider.brakeTorque = brakeTorque;
+        frontRightCollider.brakeTorque = brakeTorque;
+        rearLeftCollider.brakeTorque = brakeTorque;
+        rearRightCollider.brakeTorque = brakeTorque;
+    }
 
-        // Reset when press R
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            transform.SetPositionAndRotation(initialPosition, initialRotation);
-            rb.velocity = Vector3.zero;
-        }
+    protected void ReleaseBreak()
+    {
+        frontLeftCollider.brakeTorque = 0;
+        frontRightCollider.brakeTorque = 0;
+        rearLeftCollider.brakeTorque = 0;
+        rearRightCollider.brakeTorque = 0;
+    }
+
+    void MoveWheels()
+    {
+        UpdateWheel(frontLeft, frontLeftCollider);
+        UpdateWheel(frontRight, frontRightCollider);
+        UpdateWheel(rearLeft, rearLeftCollider);
+        UpdateWheel(rearRight, rearRightCollider);
+    }
+
+    void UpdateWheel(Transform transform, WheelCollider collider)
+    {
+        collider.GetWorldPose(out pos, out rot);
+        transform.SetPositionAndRotation(pos, rot);
+    }
+
+    protected virtual void ResetCar()
+    {
+        transform.SetPositionAndRotation(initialPosition, initialRotation);
+        rb.velocity = Vector3.zero;
     }
 }
