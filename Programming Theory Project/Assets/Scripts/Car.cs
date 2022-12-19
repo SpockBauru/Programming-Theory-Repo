@@ -7,7 +7,7 @@ public class Car : MonoBehaviour
     [Header("Car Base")]
     // Editor variables
     [SerializeField] private float motorTorque = 1000;
-    [SerializeField] private float brakeTorque = 3000;
+    [SerializeField] protected float brakeTorque = 3000;
     [SerializeField] private float steerAngle = 30f;
 
     [SerializeField] private float maxSpeed = 120;
@@ -54,9 +54,23 @@ public class Car : MonoBehaviour
     protected virtual void FixedUpdate()
     {
         MoveWheels();
+
+        // Reset car if fall from map
+        if (transform.position.y < -20)
+        {
+            StartCoroutine(ResetCar());
+            return;
+        }
     }
     protected void MoveCar(float vertical, float horizontal)
     {
+        // If game is not started, stay still
+        if (!GameManager.Instance.hasStarted)
+        {
+            return;
+        }
+
+        // Add force for front wheels
         if (rb.velocity.magnitude <= maxSpeed)
         {
             frontLeftCollider.motorTorque = vertical * motorTorque;
@@ -68,17 +82,17 @@ public class Car : MonoBehaviour
             frontRightCollider.motorTorque = 0;
         }
 
+        // Steer fring wheels
         frontLeftCollider.steerAngle = horizontal * steerAngle;
         frontRightCollider.steerAngle = horizontal * steerAngle;
     }
 
-
-    protected void BreakCar()
+    protected void BrakeCar(float torque)
     {
-        frontLeftCollider.brakeTorque = brakeTorque;
-        frontRightCollider.brakeTorque = brakeTorque;
-        rearLeftCollider.brakeTorque = brakeTorque;
-        rearRightCollider.brakeTorque = brakeTorque;
+        frontLeftCollider.brakeTorque = torque;
+        frontRightCollider.brakeTorque = torque;
+        rearLeftCollider.brakeTorque = torque;
+        rearRightCollider.brakeTorque = torque;
     }
 
     protected void ReleaseBreak()
@@ -89,7 +103,7 @@ public class Car : MonoBehaviour
         rearRightCollider.brakeTorque = 0;
     }
 
-    void MoveWheels()
+    private void MoveWheels()
     {
         UpdateWheel(frontLeft, frontLeftCollider);
         UpdateWheel(frontRight, frontRightCollider);
@@ -97,15 +111,25 @@ public class Car : MonoBehaviour
         UpdateWheel(rearRight, rearRightCollider);
     }
 
-    void UpdateWheel(Transform transform, WheelCollider collider)
+    private void UpdateWheel(Transform transform, WheelCollider collider)
     {
         collider.GetWorldPose(out pos, out rot);
         transform.SetPositionAndRotation(pos, rot);
     }
 
-    protected virtual void ResetCar()
+    public virtual IEnumerator ResetCar()
     {
+        // Reset physics
         transform.SetPositionAndRotation(initialPosition, initialRotation);
         rb.velocity = Vector3.zero;
+        frontLeftCollider.motorTorque = 0;
+        frontRightCollider.motorTorque = 0;
+        rearLeftCollider.motorTorque = 0;
+        rearRightCollider.motorTorque = 0;
+        BrakeCar(Mathf.Infinity);
+
+        // Wait one frame to apply physics, then return to normal
+        yield return null;
+        ReleaseBreak();
     }
 }

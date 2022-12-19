@@ -37,7 +37,7 @@ public class CarAI : Car
 
         if (checkpointFinished)
         {
-            BreakCar();
+            BrakeCar(brakeTorque);
         }
         else
         {
@@ -45,15 +45,11 @@ public class CarAI : Car
             MoveCar(verticalInput, horizontalInput);
         }
 
-        // Reset car if press R or if fall from map
-        if (Input.GetKeyDown(KeyCode.R) || transform.position.y < -20)
-            ResetCar();
-
         // Call base script
         base.FixedUpdate();
     }
 
-    void SetInputs(Vector3 carPosition, Vector3 desiredPosition)
+    private void SetInputs(Vector3 carPosition, Vector3 desiredPosition)
     {
         Vector3 direction = desiredPosition - carPosition;
         float angle = Vector3.SignedAngle(transform.forward, direction, transform.up);
@@ -63,13 +59,12 @@ public class CarAI : Car
         verticalInput = 1;
     }
 
-    protected override void ResetCar()
+    public void ResetAI()
     {
         checkpointFinished = false;
         checkpointIndex = 1;
         SetCheckpoint(checkpointIndex);
-        ReleaseBreak();
-        base.ResetCar();
+        StartCoroutine(ResetCar());
     }
 
     private void SetCheckpoint(int i)
@@ -92,7 +87,6 @@ public class CarAI : Car
                 SetCheckpoint(checkpointIndex);
             else
             {
-                Debug.Log(gameObject.name + " Finished");
                 checkpointFinished = true;
             }
         }
