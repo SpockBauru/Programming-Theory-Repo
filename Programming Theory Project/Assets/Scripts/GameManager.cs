@@ -9,15 +9,18 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-    
+
     public bool HasStarted { get; private set; }
     public bool HasFinished { get; private set; }
 
-    [SerializeField] private GameObject canvasObject;
+    [SerializeField] private GameObject menuPanel;
+    [SerializeField] private TextMeshProUGUI countdown;
+
+    [SerializeField] private GameObject endPanel;
     [SerializeField] private GameObject winText;
     [SerializeField] private GameObject loseText;
     [SerializeField] private TextMeshProUGUI rank;
-    [SerializeField] private TextMeshProUGUI countdown;
+
     private WaitForSeconds oneSecond = new WaitForSeconds(1);
 
     private Transform finishCheckpoint;
@@ -37,7 +40,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        HasStarted = false; 
+        HasStarted = false;
         HasFinished = false;
 
         finishCheckpoint = CheckpointList.CheckPointList.Last();
@@ -84,7 +87,7 @@ public class GameManager : MonoBehaviour
         // Reset GameManager
         winText.SetActive(false);
         loseText.SetActive(false);
-        canvasObject.SetActive(false);
+        endPanel.SetActive(false);
         HasFinished = false;
         HasStarted = false;
         finishedCars.Clear();
@@ -102,12 +105,38 @@ public class GameManager : MonoBehaviour
         playerFinished = car.GetComponentInChildren<PlayerController>();
         if (playerFinished != null)
         {
-            canvasObject.SetActive(true);
+            endPanel.SetActive(true);
             HasFinished = true;
 
-            if (place ==1) winText.SetActive(true);
+            if (place == 1) winText.SetActive(true);
             else loseText.SetActive(true);
         }
+    }
+
+    public void HideFinish()
+    {
+        endPanel.SetActive(false);
+    }
+
+    public void ShowMenu()
+    {
+        menuPanel.SetActive(true);
+    }
+
+    public void HideMenu()
+    {
+        menuPanel.SetActive(false);
+    }
+
+    public void ShowHideMenu()
+    {
+        if (menuPanel.activeSelf) menuPanel.SetActive(false);
+        else menuPanel.SetActive(true);
+    }
+
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
 
