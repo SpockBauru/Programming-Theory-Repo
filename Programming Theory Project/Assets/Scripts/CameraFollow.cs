@@ -11,43 +11,45 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float camSpeed = 10f;
     [SerializeField] private float finishRotateSpeed = 10f;
 
-    Vector3 offset = Vector3.zero;
-    Vector3 desiredPosition = Vector3.zero;
-    float distance;
+    private Vector3 position = Vector3.zero;
+    private Vector3 carPosition = Vector3.zero;
+    private Vector3 offset = Vector3.zero;
+    private Vector3 desiredPosition = Vector3.zero;
+    private float distance;
 
     // Start is called before the first frame update
     void Start()
     {
-        offset = transform.position - car.position;
+        offset = transform.localPosition - car.localPosition;
     }
 
-    // FixedUpdate is called at fixed intervals of 20ms
+    // FixedUpdate is called at fixed intervals
     void FixedUpdate()
     {
-        desiredPosition = car.position + (car.forward * offset.z) + (car.up * offset.y);
+        position = transform.position;
+        carPosition = car.position;
+        desiredPosition = carPosition + (car.up * offset.y) + (car.forward * offset.z);
 
         // Check if race is finished
-        if (GameManager.Instance.hasFinished)
+        if (GameManager.Instance.HasFinished)
         {
-            float distance = (transform.position - car.position).magnitude;
-            float desiredDistance = (desiredPosition-car.position).magnitude + 1;
+            float distance = (position - carPosition).magnitude;
+            float desiredDistance = (desiredPosition - carPosition).magnitude + 1;
             if (distance <= desiredDistance)
             {
-                transform.RotateAround(car.position, Vector3.up, Time.fixedDeltaTime * finishRotateSpeed);
+                transform.RotateAround(carPosition, Vector3.up, Time.fixedDeltaTime * finishRotateSpeed);
                 return;
             }
         }
 
         //if distance is within the range, do the lerp, otherwise immediately set position
-        distance = (car.position - transform.position).magnitude;
+        distance = (carPosition - position).magnitude;
         if (distance < maxDistance)
-            transform.position = Vector3.Lerp(transform.position, desiredPosition, camSpeed * Time.fixedDeltaTime);
+            position = Vector3.Lerp(position, desiredPosition, camSpeed * Time.fixedDeltaTime);
         else
-            transform.position = desiredPosition;
+            position = desiredPosition;
 
-        transform.LookAt(car.position);
-
-
-
+        transform.position = position;
+        transform.LookAt(carPosition);
     }
 }

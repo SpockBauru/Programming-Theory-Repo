@@ -7,7 +7,7 @@ public class PlayerController : Car
     protected override void FixedUpdate()
     {
         // Check if race is finished
-        if (GameManager.Instance.hasFinished)
+        if (GameManager.Instance.HasFinished)
         {
             BrakeCar(brakeTorque);
             return;

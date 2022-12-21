@@ -24,6 +24,10 @@ public class CarAI : Car
     private Vector3 currentPosition;
     private float turnForce = 0;
 
+    // Inputs
+    Vector3 direction = Vector3.zero;
+    float angle = 0;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -51,8 +55,8 @@ public class CarAI : Car
 
     private void SetInputs(Vector3 carPosition, Vector3 desiredPosition)
     {
-        Vector3 direction = desiredPosition - carPosition;
-        float angle = Vector3.SignedAngle(transform.forward, direction, transform.up);
+        direction = desiredPosition - carPosition;
+        angle = Vector3.SignedAngle(transform.forward, direction, transform.up);
         turnForce = Mathf.Clamp(angle / maxAngle, -1, 1);
 
         horizontalInput = turnForce;

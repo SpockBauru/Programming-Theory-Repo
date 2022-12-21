@@ -65,7 +65,7 @@ public class Car : MonoBehaviour
     protected void MoveCar(float vertical, float horizontal)
     {
         // If game is not started, stay still
-        if (!GameManager.Instance.hasStarted)
+        if (!GameManager.Instance.HasStarted)
         {
             return;
         }
