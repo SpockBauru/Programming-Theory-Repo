@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    // ENCAPSULATION
     public bool HasStarted { get; private set; }
     public bool HasFinished { get; private set; }
 

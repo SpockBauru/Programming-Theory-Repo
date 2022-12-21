@@ -51,6 +51,7 @@ public class Car : MonoBehaviour
     }
 
     // FixedUpdate is called at fixed intervals of 20ms
+    // INHERITANCE
     protected virtual void FixedUpdate()
     {
         MoveWheels();
@@ -103,6 +104,7 @@ public class Car : MonoBehaviour
         rearRightCollider.brakeTorque = 0;
     }
 
+    // ABSTRACTION
     private void MoveWheels()
     {
         UpdateWheel(frontLeft, frontLeftCollider);

@@ -35,6 +35,7 @@ public class CarAI : Car
         SetCheckpoint(checkpointIndex);
     }
 
+    // POLYMORPHISM
     protected override void FixedUpdate()
     {
         currentPosition = transform.position;
