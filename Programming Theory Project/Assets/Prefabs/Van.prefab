@@ -65,8 +65,7 @@ MonoBehaviour:
   motorTorque: 1000
   brakeTorque: 3000
   steerAngle: 25
-  maximumSpeed: 110
-  maxSpeed: 100
+  maxSpeed: 110
   centerOfMass: {x: 0, y: 0, z: 0}
   frontLeft: {fileID: 6632546757227677390}
   frontRight: {fileID: 6632546757227581410}
