@@ -64,7 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   motorTorque: 1000
   brakeTorque: 3000
-  steerAngle: 30
+  maxSteerAngle: 30
   maxSpeed: 120
   centerOfMass: {x: 0, y: 0, z: 0}
   frontLeft: {fileID: 6639560420681948089}
@@ -77,7 +77,6 @@ MonoBehaviour:
   rearRightCollider: {fileID: 7163847910908407954}
   laneOffsetX: 5
   laneOffsetZ: 0
-  maxAngle: 30
   checkpointFinished: 0
 --- !u!1001 &6639560420681798925
 PrefabInstance:
@@ -133,38 +132,6 @@ PrefabInstance:
     - target: {fileID: 436868, guid: 70bf34f6c25c948458f254e87188b00b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2423267889218863727, guid: 70bf34f6c25c948458f254e87188b00b, type: 3}
-      propertyPath: m_SuspensionSpring.damper
-      value: 9000
-      objectReference: {fileID: 0}
-    - target: {fileID: 2423267889218863727, guid: 70bf34f6c25c948458f254e87188b00b, type: 3}
-      propertyPath: m_SuspensionSpring.spring
-      value: 70000
-      objectReference: {fileID: 0}
-    - target: {fileID: 4433879493483328857, guid: 70bf34f6c25c948458f254e87188b00b, type: 3}
-      propertyPath: m_SuspensionSpring.damper
-      value: 9000
-      objectReference: {fileID: 0}
-    - target: {fileID: 4433879493483328857, guid: 70bf34f6c25c948458f254e87188b00b, type: 3}
-      propertyPath: m_SuspensionSpring.spring
-      value: 70000
-      objectReference: {fileID: 0}
-    - target: {fileID: 4561984512760079775, guid: 70bf34f6c25c948458f254e87188b00b, type: 3}
-      propertyPath: m_SuspensionSpring.damper
-      value: 9000
-      objectReference: {fileID: 0}
-    - target: {fileID: 4561984512760079775, guid: 70bf34f6c25c948458f254e87188b00b, type: 3}
-      propertyPath: m_SuspensionSpring.spring
-      value: 70000
-      objectReference: {fileID: 0}
-    - target: {fileID: 7173632703240645694, guid: 70bf34f6c25c948458f254e87188b00b, type: 3}
-      propertyPath: m_SuspensionSpring.damper
-      value: 9000
-      objectReference: {fileID: 0}
-    - target: {fileID: 7173632703240645694, guid: 70bf34f6c25c948458f254e87188b00b, type: 3}
-      propertyPath: m_SuspensionSpring.spring
-      value: 70000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70bf34f6c25c948458f254e87188b00b, type: 3}

@@ -8,7 +8,7 @@ public class Car : MonoBehaviour
     // Editor variables
     [SerializeField] private float motorTorque = 1000;
     [SerializeField] protected float brakeTorque = 3000;
-    [SerializeField] private float steerAngle = 30f;
+    [SerializeField] protected float maxSteerAngle = 30f;
 
     [SerializeField] private float maxSpeed = 120;
 
@@ -50,8 +50,8 @@ public class Car : MonoBehaviour
         initialRotation = transform.rotation;
     }
 
-    // FixedUpdate is called at fixed intervals of 20ms
-    // INHERITANCE
+    // FixedUpdate is called at fixed intervals
+    // POLYMORPHISM
     protected virtual void FixedUpdate()
     {
         MoveWheels();
@@ -84,8 +84,8 @@ public class Car : MonoBehaviour
         }
 
         // Steer fring wheels
-        frontLeftCollider.steerAngle = horizontal * steerAngle;
-        frontRightCollider.steerAngle = horizontal * steerAngle;
+        frontLeftCollider.steerAngle = horizontal * maxSteerAngle;
+        frontRightCollider.steerAngle = horizontal * maxSteerAngle;
     }
 
     protected void BrakeCar(float torque)

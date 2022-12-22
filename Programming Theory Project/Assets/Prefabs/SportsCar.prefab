@@ -64,8 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   motorTorque: 1000
   brakeTorque: 3000
-  steerAngle: 30
-  maximumSpeed: 115
+  maxSteerAngle: 30
   maxSpeed: 115
   centerOfMass: {x: 0, y: -1, z: 1}
   frontLeft: {fileID: 8259372801615690428}
@@ -78,7 +77,6 @@ MonoBehaviour:
   rearRightCollider: {fileID: 8571960958130132615}
   laneOffsetX: 0
   laneOffsetZ: 0
-  maxAngle: 90
   checkpointFinished: 0
 --- !u!1001 &8255581349333925216
 PrefabInstance:

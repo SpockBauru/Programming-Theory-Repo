@@ -2,15 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// INHERITANCE
 public class CarAI : Car
 {
     [Header("Car AI")]
     //position of the car in the lane
     public float laneOffsetX = 0f;
     public float laneOffsetZ = 0f;
-
-    //Limit angle between car and checkpoint
-    public float maxAngle = 90f;
 
     // Checkpoints
     private Transform currentCheckpoint;
@@ -22,11 +20,9 @@ public class CarAI : Car
 
     // Car variables
     private Vector3 currentPosition;
-    private float turnForce = 0;
-
-    // Inputs
-    Vector3 direction = Vector3.zero;
-    float angle = 0;
+    private Vector3 direction = Vector3.zero;
+    private float angle = 0;
+    private Vector3 projectedVector;
 
     // Start is called before the first frame update
     private void Start()
@@ -57,10 +53,12 @@ public class CarAI : Car
     private void SetInputs(Vector3 carPosition, Vector3 desiredPosition)
     {
         direction = desiredPosition - carPosition;
-        angle = Vector3.SignedAngle(transform.forward, direction, transform.up);
-        turnForce = Mathf.Clamp(angle / maxAngle, -1, 1);
+        Debug.DrawRay(transform.position, direction);
+        projectedVector = Vector3.ProjectOnPlane(direction, transform.up);
+        angle = Vector3.SignedAngle(transform.forward, projectedVector, transform.up);
+        angle = Mathf.Clamp(angle, -maxSteerAngle, maxSteerAngle);
+        horizontalInput = angle / maxSteerAngle;
 
-        horizontalInput = turnForce;
         verticalInput = 1;
     }
 

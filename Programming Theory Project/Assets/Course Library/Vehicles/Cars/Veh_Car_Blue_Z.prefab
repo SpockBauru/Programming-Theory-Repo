@@ -469,7 +469,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   motorTorque: 1000
   brakeTorque: 3000
-  steerAngle: 25
+  maxSteerAngle: 30
   maxSpeed: 120
   centerOfMass: {x: 0, y: 0, z: 0}
   frontLeft: {fileID: 420582}
