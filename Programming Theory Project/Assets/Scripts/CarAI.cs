@@ -13,7 +13,8 @@ public class CarAI : Car
     // Checkpoints
     private Transform currentCheckpoint;
     private int checkpointLenght;
-    private int checkpointIndex = 1;
+    private int firstCheckpoint = 1;
+    private int checkpointIndex;
 
     private Vector3 checkPointPosition;
     [SerializeField] private bool checkpointFinished = false;
@@ -28,6 +29,7 @@ public class CarAI : Car
     private void Start()
     {
         checkpointLenght = CheckpointList.CheckPointList.Length;
+        checkpointIndex = firstCheckpoint;
         SetCheckpoint(checkpointIndex);
     }
 
@@ -65,7 +67,7 @@ public class CarAI : Car
     public void ResetAI()
     {
         checkpointFinished = false;
-        checkpointIndex = 1;
+        checkpointIndex = firstCheckpoint;
         SetCheckpoint(checkpointIndex);
         StartCoroutine(ResetCar());
     }

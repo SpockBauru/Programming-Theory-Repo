@@ -89,6 +89,7 @@ public class GameManager : MonoBehaviour
         winText.SetActive(false);
         loseText.SetActive(false);
         endPanel.SetActive(false);
+        menuPanel.SetActive(false);
         HasFinished = false;
         HasStarted = false;
         finishedCars.Clear();
