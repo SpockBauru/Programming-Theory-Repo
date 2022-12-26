@@ -10,18 +10,13 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float maxDistance = 50f;
     [SerializeField] private float camSpeed = 10f;
     [SerializeField] private float finishRotateSpeed = 10f;
+    [SerializeField] private Vector3 offset = new Vector3(0, 4, -8);
 
     private Vector3 position = Vector3.zero;
     private Vector3 carPosition = Vector3.zero;
-    private Vector3 offset = Vector3.zero;
+    
     private Vector3 desiredPosition = Vector3.zero;
     private float distance;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        offset = transform.localPosition - car.localPosition;
-    }
 
     // FixedUpdate is called at fixed intervals
     void FixedUpdate()

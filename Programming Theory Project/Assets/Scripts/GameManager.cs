@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
         finishedCars.Add(place + "  " + carName);
         rank.text = String.Join("\r\n", finishedCars);
 
-        playerFinished = car.GetComponentInChildren<PlayerController>();
+        playerFinished = car.parent.GetComponent<PlayerController>();
         if (playerFinished != null)
         {
             endPanel.SetActive(true);

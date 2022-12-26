@@ -128,7 +128,7 @@ public class Car : MonoBehaviour
         frontRightCollider.motorTorque = 0;
         rearLeftCollider.motorTorque = 0;
         rearRightCollider.motorTorque = 0;
-        BrakeCar(Mathf.Infinity);
+        BrakeCar(10000);
 
         // Wait one frame to apply physics, then return to normal
         yield return null;
